@@ -51,27 +51,28 @@ class Program
     {
         Console.WriteLine("Please enter the player name:");
         string? name = Console.ReadLine();
-        if ((name?.Length ?? 0) > 0)
+        if (string.IsNullOrWhiteSpace(name))
         {
-            if (name.Any(char.IsDigit))
+            Console.WriteLine("Player name cannot be blank");
+        }
+        else if (name.Any(char.IsDigit))
+        {
+            Console.WriteLine("Please do not enter number for name.");
+        }
+        else
+        {
+            Console.WriteLine("Please enter the initial gold the player have:");
+            string? goldInput = Console.ReadLine();
+            if (int.TryParse(goldInput, out int gold))
             {
-                Console.WriteLine("Please do not enter number for name.");
+                if (!inventory.TryAdd(name, gold))
+                {
+                    Console.WriteLine("Player already exist.");
+                }
             }
             else
             {
-                Console.WriteLine("Please enter the initial gold the player have:");
-                string? goldInput = Console.ReadLine();
-                if (int.TryParse(goldInput, out int gold))
-                {
-                    if (!inventory.TryAdd(name, gold))
-                    {
-                        Console.WriteLine("Player already exist.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Enter a valid gold amount.");
-                }
+                Console.WriteLine("Enter a valid gold amount.");
             }
         }
     }
@@ -147,7 +148,7 @@ class Program
         }
     }
 
-    static void ViewGold() 
+    static void ViewGold()
     {
         int count = 1;
         foreach (var player in inventory)
