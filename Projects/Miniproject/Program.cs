@@ -15,10 +15,10 @@ class Program
             Console.WriteLine("4. View Player Gold");
             Console.WriteLine("5. Exit");
 
-            int choice;
-            if (int.TryParse(Console.ReadLine(), out choice))
+            int choices;
+            if (int.TryParse(Console.ReadLine(), out choices))
             {
-                switch (choice)
+                switch (choices)
                 {
                     case 1:
                         AddPlayer();
