@@ -17,17 +17,15 @@ builder.Services.AddDbContext<LibraryDbContext>(options =>
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = 
     System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
-    // //Dependency Inject the proper services
-// builder.Services.AddScoped<IPetService, PetService>();
-// builder.Services.AddScoped<IOwnerService, OwnerService>();
-
-// //Dependency Inject the proper repositories
-// builder.Services.AddScoped<IPetRepository, PetRepository>();
-// builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
-
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBorrowingService, BorrowingService>();
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBorrowingRepository, BorrowingRepository>();
 
 var app = builder.Build();
 

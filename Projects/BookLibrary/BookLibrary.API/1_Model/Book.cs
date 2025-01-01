@@ -9,7 +9,7 @@ public class Book
     public required string ISBN { get; set; }
     public int? PublicationYear { get; set;}
     public bool IsAvailable { get; set; }
-    public required int AuthorId { get; set; }
-    public required Author Author { get; set; }
+    public int? AuthorId { get; set; }
+    public string? Author { get; set; }
 
 }

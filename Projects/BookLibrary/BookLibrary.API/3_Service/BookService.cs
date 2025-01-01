@@ -11,20 +11,22 @@ public class BookService : IBookService
     {
         _bookRepoitory = bookRepository;
     }
-    public Task AddBook(Book book)
+    public async Task<Book> AddBook(Book book){
+        await _bookRepoitory.AddBook(book);
+        return book;
+    }
+    public async Task DeleteBookById(int id)
     {
-        throw new NotImplementedException();
+        await _bookRepoitory.DeleteBookById(id);
     }
 
-    public Task DeleteBookById(int id)
-    {
-        throw new NotImplementedException();
+    public async Task<IEnumerable<Book>> GetAllBooks(){
+        return await _bookRepoitory.GetAllBooks();
     }
-
-    public async Task<IEnumerable<Book>> GetAllBooks() => await _bookRepoitory.GetAllBooks();
     
-    public Task<Book> GetBookById(int id)
+    public async Task<Book> GetBookById(int id)
     {
-        throw new NotImplementedException();
+        return await _bookRepoitory.GetBookById(id);
     }
+    
 }

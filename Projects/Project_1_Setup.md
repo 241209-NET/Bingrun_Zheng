@@ -61,6 +61,7 @@ dotnet add package Moq
 
 ## To generate test coverage
 ```bash
+dotnet tool install --global dotnet-reportgenerator-globaltool
 dotnet test --collect: "XPlat Code Coverage"
 ```
 

@@ -11,24 +11,48 @@ public class BookRepository : IBookRepository
     {
         _libraryContext = context;
     }
-    
-    public Task AddBook(Book book)
+
+    public async Task<Book> AddBook(Book book)
     {
-        throw new NotImplementedException();
+        _libraryContext.Add(book);
+        await _libraryContext.SaveChangesAsync();
+        return book;
     }
 
-    public Task DeleteBookById(int id)
+    public async Task DeleteBookById(int id)
     {
-        throw new NotImplementedException();
+        var book = await _libraryContext.Books.FindAsync(id);
+        if (book != null)
+        {
+            _libraryContext.Books.Remove(book);
+            await _libraryContext.SaveChangesAsync();
+        }
     }
 
     public async Task<IEnumerable<Book>> GetAllBooks()
     {
-        return await _libraryContext.Books.Include(b => b.Author).ToListAsync();
+        return await _libraryContext.Books
+            .Select(b => new Book
+            {
+                Id = b.Id,
+                Title = b.Title,
+                ISBN = b.ISBN,
+                PublicationYear = b.PublicationYear,
+                IsAvailable = b.IsAvailable,
+                AuthorId = b.AuthorId,
+                Author = b.AuthorId.HasValue ? _libraryContext.Authors.Where(a => a.Id == b.AuthorId).Select(a => a.Name).FirstOrDefault() : null
+            })
+            .ToListAsync();
     }
 
-    public Task<Book> GetBookById(int id)
+    public async Task<Book> GetBookById(int id)
     {
-        throw new NotImplementedException();
+        var book = await _libraryContext.Books.FindAsync(id);
+        if (book == null)
+        {
+            throw new KeyNotFoundException($"Book with id {id} does not exist.");
+        }
+        return book;
     }
+
 }

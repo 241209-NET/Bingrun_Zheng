@@ -30,6 +30,9 @@ namespace BookLibrary.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.PrimitiveCollection<string>("Books")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -47,7 +50,10 @@ namespace BookLibrary.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthorId")
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<string>("ISBN")
@@ -65,8 +71,6 @@ namespace BookLibrary.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
                 });
@@ -127,17 +131,6 @@ namespace BookLibrary.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BookLibrary.API.Data.Book", b =>
-                {
-                    b.HasOne("BookLibrary.API.Data.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-                });
-
             modelBuilder.Entity("BookLibrary.API.Data.Borrowing", b =>
                 {
                     b.HasOne("BookLibrary.API.Data.Book", "Book")
@@ -155,11 +148,6 @@ namespace BookLibrary.API.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookLibrary.API.Data.Author", b =>
-                {
-                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("BookLibrary.API.Data.User", b =>
